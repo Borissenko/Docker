@@ -1,0 +1,64 @@
+# это комментарий
+# Все поля, которые могут быть прописаны в docker-compose.yml, описаны на
+# https://docs.docker.com/compose/compose-file/
+
+version: '3'      <версия docker-compose
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: realworld-docker-frontend   #под этим именем у нас будут фигурировать заявления от frontend-сервиса в ходе билдинга образа
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    command: serve -s build -l 3000             # это вариант, используемый для продакшина, см. #16 Frontend для production (урок 15)
+
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+      # объективная папка докер-проекта : папка в контейнере
+      # что копируем(там, где мы кодим и вносим правки) : куда копируем(что отрабатывает для демонстрации)
+
+
+  api:                           <название одного из наших сервисов
+    build: ./api                 <Docker-compose запрашивает Dockerfile из папки ./api
+    container_name: It_is_API    <назначаем имя сервису(КОНТЕЙНЕРУ), а не автоматическое, что бы легче было смотреть его по команде >docker ps.
+    command: npm run start       <какую команду запускаем в данном сервисе при старте контейнера
+    restart: unless-stopped      <автоматический перезапуск, если Dockerfile упадет
+    ports:
+      - "8080:3000"              <Dockerfile выводит наружу от себя свой внутренний порт 3000,
+                                 <а Docker-compose ПЕРЕНАПРАВЛЯЕТ его наружу через свой порт 8080,
+                                 <поэтому в броузере мы набираем 8080.
+
+    environment:                   <здесь мы объявили переменную окружения для данного сервиса и ее теперь можно вызвать в коде express'a.
+      - PORT=3000                  <эти переменные НЕ ПЕРЕТИРАЮТ ports:"8080:3000" (!),
+                                   <причем значение PORT=3000 ДОЛЖНО соответствовать второму значению в "ports:"8080:3000"".
+      - HOST=http://sw.ru
+
+
+
+      - MONGO_URL=mongodb://api_db:27017/api         <пишем БЕЗ КАВЫЧЕК. Но если environment оформить как объект, environment: { HOST=http: "//sw.ru" }, то кавычки будут уже нужны.
+
+
+
+    depends_on:              /#что бы сначало запускался сервис api_db, а лишь затем сервис api
+      - api_db
+
+  api_db:                    #сервис для bd
+    container_name: It_is_API-DB    #под этим именем у нас будут фигурировать заявления от api_db в ходе билдинга образа
+    image: mongo:latest
+    #мы не пишем build, а пишем image, т.к.
+    #мы не будем создавать для этого сервиса собственный Dockerfile
+    #мы возмем уже созданный нами образ
+    #image - аналог FROM из Dockerfile.
+    volumes:
+      - mongodb_api:/data/db
+
+
+
+volumes:      #эти тома данных будут вне образа, а так же будут доступны для всех сервисов одновременно
+  mongodb_api:
+
+
+
+
+

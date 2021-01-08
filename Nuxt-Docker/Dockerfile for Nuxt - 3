@@ -1,0 +1,30 @@
+FROM node:9.11.1-alpine
+
+# устанавливаем простой HTTP-сервер для статики
+RUN npm install -g http-server
+
+# делаем каталог 'app' текущим рабочим каталогом
+WORKDIR /app
+
+# копируем оба 'package.json' и 'package-lock.json' (если есть)
+COPY package*.json ./
+
+# устанавливаем зависимости проекта
+RUN npm install
+
+# копируем файлы и каталоги проекта в текущий рабочий каталог (т.е. в каталог 'app')
+COPY . .
+
+# собираем приложение для production с минификацией- build
+RUN npm run dev
+
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
+
+
+#https://ru.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
+#docker build -t nd-vue .
+#docker run -it -p 8080:8080 --rm --name dockerize-vuejs-app-1 nd-vue
+#доступ к нашему Vue.js-приложению по адресу localhost: 8080
+
+#не запускается

@@ -1,0 +1,26 @@
+#http://qaru.site/questions/14740286/dockerizing-nuxtjs-app-docker-run-works-but-docker-compose-doesnt
+
+FROM node:8.9.1-alpine
+
+# Create app dir
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Install deps
+RUN apk update && apk upgrade && apk add git
+
+COPY package*.json /usr/src/app/
+RUN npm install
+# If building for production:
+# RUN npm install --only=production
+COPY . /usr/src/app/
+
+ENV HOST 0.0.0.0
+EXPOSE 3000
+
+# Start command
+CMD [ "npm", "run", "dev" ]
+
+
+# sudo docker build -t nd_qaru .
+# sudo docker run -p 3000:3000 nd_qaru

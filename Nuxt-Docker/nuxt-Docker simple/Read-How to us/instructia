@@ -1,0 +1,14 @@
+образ с болванкой Nuxt
+Nuxt создал вручную by create-nuxt-app
+noda для nuxt- по https://cmty.app/nuxt/nuxt.js/issues/c1046
+
+Cоздать папку
+в нее загрузить 
+-папки, полученные by nuxt-create-app, без инстилляции зависимостей, Закотовка находиться по пути ./template create-nuxt-app/my_5
+-Dockerfile
+
+Далее перейти в эту папку by терминалом и запустить команды
+
+#sudo docker build -f Dockerfile -t nuxt-docker:simple .
+#sudo docker run -d -p 3000:3000 nuxt-docker:simple
+#http://localhost:3000

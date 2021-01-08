@@ -1,0 +1,55 @@
+version: '3'
+#  комментарий
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: dc_frontend
+    ports:
+      - "3000:8080"
+    restart: unless-stopped
+    command: serve -s dist -l 8080
+
+  api:
+    build: ./api
+    container_name: dc_api
+    command: npm run start
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - HOST=http://sw.ru
+      - MONGO_URL=mongodb://api_db:27017/api
+    depends_on:
+      - api_db
+
+  auth:
+    build: ./auth
+    container_name: dc_auth
+    command: npm run start
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - HOST=http://sw.ru
+      - MONGO_URL=mongodb://auth_db:27017/auth
+    depends_on:
+      - auth_db
+
+  api_db:
+    image: mongo:latest
+    container_name: dc_api-db
+    volumes:
+      - mongodb_api:/data/db
+
+  auth_db:
+    image: mongo:latest
+    container_name: dc_auth-db
+    volumes:
+      - mongodb_auth:/data/db
+
+volumes:
+  mongodb_api:
+  mongodb_auth:

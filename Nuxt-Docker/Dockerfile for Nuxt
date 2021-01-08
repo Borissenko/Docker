@@ -1,0 +1,105 @@
+#https://cmty.app/nuxt/nuxt.js/issues/c1046
+
+FROM node:8.9.1
+#FROM node:10.7             <#- альтернатива из 2 versis
+##FROM node:10.9.0-alpine   <##- альтернатива из 3 versis
+
+RUN mkdir -p /app
+COPY . /app
+WORKDIR /app
+
+##RUN apk update && apk upgrade && apk add git
+
+COPY package.json /app
+COPY package-lock.json /app
+#COPY ./package*.json ./
+##COPY package*.json ./
+
+##-#RUN npm rebuild  <you can notice #RUN npm rebuild that is to be run first time after changing node version than after that you do not need to rebuild.
+RUN npm install 
+
+ENV NODE_ENV=production
+
+COPY . /app           
+#COPY . .
+RUN npm run build
+
+ENV HOST 0.0.0.0
+EXPOSE 3000
+CMD ["npm", "start"]
+
+
+then I run: 
+sudo docker build -t <image-name> .
+#docker build -f Dockerfile -t <name>:<tag> .
+# -f  <это "формат"
+
+fater build is done: 
+sudo docker run -it -p 3000:3000 <image-name>
+#docker run -d -p 3000:3000 <name>:<tag>
+
+After that I was abel to successfully go to localhost port 3000 :)
+
+
+
+\\\\2 versis
+
+FROM node:10.7
+
+LABEL Author Chris Dillinger
+
+COPY ./package*.json ./
+RUN npm install
+
+ENV NODE_ENV=production
+
+COPY . .
+RUN npm run build
+
+ENV HOST 0.0.0.0
+EXPOSE 3000
+CMD ["npm", "start"]
+
+
+My .dockerignore file looks like:
+node_modules
+npm-debug.log
+.nuxt
+
+
+I build with:
+docker build -f Dockerfile -t <name>:<tag> .
+
+I run with:
+docker run -d -p 3000:3000 <name>:<tag>
+
+
+\\\\3 versis
+
+I am using the following on production server with kubernetes
+
+FROM node:10.9.0-alpine
+
+RUN mkdir -p /app
+COPY . /app
+WORKDIR /app
+
+RUN apk update && apk upgrade && apk add git
+
+COPY package.json /app
+#RUN npm rebuild
+RUN npm install
+
+ENV NODE_ENV=production
+
+COPY . /app
+RUN npm run build
+
+ENV HOST 0.0.0.0
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+#you can notice #RUN npm rebuild that is to be run first time after changing node version than after that you do not need to rebuild.
+
+

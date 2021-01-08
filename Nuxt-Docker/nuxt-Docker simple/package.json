@@ -1,0 +1,21 @@
+{
+  "name": "my_5",
+  "version": "1.0.0",
+  "description": "universal bootstrap axios",
+  "author": "Dormeev",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^1.0.0",
+    "bootstrap-vue": "^1.0.2",
+    "bootstrap": "^4.0.0-beta.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.1"
+  }
+}

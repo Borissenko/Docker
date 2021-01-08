@@ -1,0 +1,38 @@
+#17 Docker exec (урок 16)
+- что бы ходить по папкам КОНТЕЙНЕРА.
+
+>docker ps   //процессы, в том числе имена запущенных контейнеров.
+
+1)
+>docker exec -it containerName echo "Привет!"  //или container_name у сервиса, прописанного в docker-compose.yml
+
+Этим мы:
+- выполняем команду `echo "Привет!"` в линуксе контейнера
+- результат выводится в консоле
+
+
+2)
+>docker exec -it containerName sh
+-консоль переходит в shell(оболочка) контейнера, в его WORKDIR, т.е. в /usr/src/app
+А дальше можно ХОДИТЬ ПО ПАПКАМ КОНТЕЙНЕРА.
+
+pwd        =>/usr/src/app, путь на "компъютере контейнера", где мы находимся.
+ls         => скопированные в контейнер файлы при билдинге контейнера
+
+cd /       => перешли в корень linux
+ls         => увидели все папки в корне linux
+
+
+3) Перешли в то место, где в контейнере (а это- linux) лежит наш проект:
+cd /usr/src/app
+npm run server    //запустили контейнерный(!) вариант frontend-проекта.
+ 
+Но посмотреть, что запустилось, труднее: 
+"It seems you are running Vue CLI inside a container.
+Access the dev server via http://localhost:<your container's external mapped port>/"
+
+npm run build
+
+4)
+ВЫХОДИТЬ
+>Ctrl + d

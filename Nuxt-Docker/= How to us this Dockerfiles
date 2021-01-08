@@ -1,0 +1,10 @@
+Cоздать папку
+в нее загрузить 
+-папки, полученные by nuxt-create-app, без инстилляции зависимостей,
+-Dockerfile
+
+Далее перейти в эту папку by терминалом и запустить команды
+
+#docker build -f Dockerfile -t nuxt-docker:ferst .
+#docker run -d -p 3000:3000 nuxt-docker:ferst
+#http://localhost:3000
