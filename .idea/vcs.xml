@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/= Docker_main/Nuxt-Docker/nuxt-Docker simple" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/= Docker_main/Nuxt-Docker/nuxt-Docker simple/template create-nuxt-app/my_5" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Docker_at_archive(надо синтезировать с остальным)/Docker-Developing/node-app/src" vcs="Git" />
@@ -26,6 +27,8 @@
     <mapping directory="$PROJECT_DIR$/Docker_at_archive/Nuxt-Docker/template create-nuxt-app/my_5" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Docker_at_archive/Vue_project_for_attemtion/for_docker" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Docker_monstr/docker_Monstr_project" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Nuxt-Docker/nuxt-Docker simple" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Nuxt-Docker/nuxt-Docker simple/template create-nuxt-app/my_5" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/docker_Monstr_project" vcs="Git" />
   </component>
 </project>
