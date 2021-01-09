@@ -3,15 +3,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const axios = require("axios");
-const { port, host, db, authApiUrl } = require("./configuration");
-const { connectDb } = require("./helpers/db");
+const { port, host, MONGO_URL, authApiUrl } = require("./configuration");
+const { connectDb } = require("./helpers/db");   // это mongoose.connection
 
 const app = express();                         //1. запуск сервера
 
-const kittySchema = new mongoose.Schema({                    //=1. Деклларация схемы MongoDB, kittySchema- имя произвольное.
+const kittySchema = new mongoose.Schema({                    //=1. Декларация схемы MongoDB, kittySchema- имя произвольное.
   name: String
 })
-const Kitten = mongoose.model("Kitten", kittySchema);  //=2. Деклларация модели MongoDB на базе схемы.
+const Kitten = mongoose.model("Kitten", kittySchema);  //=2. Декларация модели MongoDB на базе схемы.
                                                              // Что такое ("Kitten", ...) - непонятно. Имя модели?
 
 app.get("/test", (req, res) => {
@@ -38,10 +38,10 @@ app.get("/testwithcurrentuser", (req, res) => {
 
 
 const startServer = () => {
-  app.listen(port, () => {                      //3. старт прослушивания порта 3000 by запущенным сервером
+  app.listen(port, () => {                      //3. старт прослушивания порта 3001 by запущенным сервером
     console.log(`Started api service on port ${port}`);
     console.log(`Our host is ${host}`);
-    console.log(`Database url is ${db}`);
+    console.log(`Database url is ${MONGO_URL}`);
 
     const silence = new Kitten({ name: "Go!" });    //=3. Создание экземпляра модели с конкретными данными.
     // доп-но здесь автоматически прописывается поле _id(!).
@@ -63,7 +63,7 @@ const startServer = () => {
   });
 };
 
-//2. запускаем mongoose и после формирования соединения между mongoose и ......  стартуем у сервера прослушивание порта 3000.
+//2. запускаем mongoose и после формирования соединения между mongoose и ...... стартуем у сервера прослушивание им своего порта 3001.
 connectDb()    //см. https://mongoosejs.com/docs/ .
   .on("error", console.log)
   .on("disconnected", connectDb)   //если рассоединились, то запускаем соединение заново
