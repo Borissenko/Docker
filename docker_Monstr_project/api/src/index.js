@@ -3,10 +3,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const axios = require("axios");
+const bodyParser = require('body-parser')         //(!) Обязателен для всех запросов, которые имеют pl.
 const { port, host, MONGO_URL, authApiUrl } = require("./configuration");
 const { connectDb } = require("./helpers/db");   // это mongoose.connection
 
-const app = express();                         //1. запуск сервера
+const app = express();                         //1. запуск сервераconst bodyParser = require('body-parser')         //(!) Обязателен для всех запросов, которые имеют pl.
+app.use(bodyParser.json())
 
 const kittySchema = new mongoose.Schema({                    //=1. Декларация схемы MongoDB, kittySchema- имя произвольное.
   name: String

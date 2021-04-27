@@ -2,8 +2,11 @@ const express = require("express");
 const axios = require("axios");
 const { port, host, db, apiUrl } = require("./configuration");
 const { connectDb } = require("./helpers/db");
+const bodyParser = require('body-parser')         //(!) Обязателен для всех запросов, которые имеют pl.
 
 const app = express();
+
+app.use(bodyParser.json())
 
 app.get("/test", (req, res) => {
   res.send("Our AUTH-server is working");
